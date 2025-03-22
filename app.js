@@ -1,0 +1,1 @@
+document.getElementById("root").innerHTML = "<h2>Edward AI Business Plan Generator</h2><p>React-komponent kommer her...</p>";

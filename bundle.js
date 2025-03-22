@@ -32,7 +32,7 @@ function next() {
 
 function renderSummary() {
   const root = document.getElementById("root");
-  let output = "<h2>Din forretningsplan</h2><ol>";
+  let output = "<h2>Din besvarelse</h2><ol>";
   for (let i = 0; i < questions.length; i++) {
     output += `<li><strong>${questions[i]}</strong><br/>${answers[i]}</li>`;
   }
@@ -42,15 +42,43 @@ function renderSummary() {
 
 function generateAI() {
   const root = document.getElementById("root");
-  root.innerHTML = `
-    <h2>🧠 AI genererer nu din forretningsplan...</h2>
-    <p>(Denne funktion kobles til GPT-4 i næste version)</p>
-    <p><button onclick='downloadPDF()'>Download som PDF</button></p>
-  `;
+  root.innerHTML = "<h2>🧠 GPT-4 genererer din forretningsplan...</h2><p>Vent venligst...</p>";
+
+  const prompt = questions.map((q, i) => `${q}\n${answers[i]}`).join("\n\n");
+  const fullPrompt = `Skriv en professionel dansk forretningsplan baseret på følgende:
+
+${prompt}`;
+
+  fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer YOUR_OPENAI_API_KEY"
+    },
+    body: JSON.stringify({
+      model: "gpt-4",
+      messages: [{ role: "user", content: fullPrompt }],
+      max_tokens: 1200
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    const content = data.choices?.[0]?.message?.content || "Der opstod en fejl.";
+    root.innerHTML = `
+      <h2>🎉 Din AI-genererede forretningsplan</h2>
+      <div id="ai-result">${content}</div>
+      <button onclick="downloadPDF()">Download som PDF</button>
+    `;
+  })
+  .catch(err => {
+    root.innerHTML = "<p>Fejl under generering. Tjek API-nøgle eller netværk.</p>";
+    console.error(err);
+  });
 }
 
 function downloadPDF() {
-  alert("PDF-download aktiveres i næste version 🚀");
+  const element = document.getElementById("ai-result");
+  html2pdf().from(element).save("Edward_Forretningsplan.pdf");
 }
 
 renderQuestion();

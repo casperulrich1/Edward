@@ -73,7 +73,7 @@ ${prompt}`;
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": "Bearer YOUR_OPENAI_API_KEY"
+      "Authorization": "Bearer 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"
     },
     body: JSON.stringify({
       model: "gpt-4",

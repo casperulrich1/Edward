@@ -73,7 +73,7 @@ ${prompt}`;
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": "Bearer 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"
+      "Authorization": "Bearer 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"
     },
     body: JSON.stringify({
       model: "gpt-4",

@@ -32,16 +32,25 @@ function next() {
 
 function renderSummary() {
   const root = document.getElementById("root");
-  let output = "<h2>Din plan</h2><ol>";
+  let output = "<h2>Din forretningsplan</h2><ol>";
   for (let i = 0; i < questions.length; i++) {
     output += `<li><strong>${questions[i]}</strong><br/>${answers[i]}</li>`;
   }
-  output += "</ol><button onclick='generatePDF()'>Download som PDF</button>";
+  output += "</ol><button onclick='generateAI()'>Generér professionel plan med AI 🤖</button>";
   root.innerHTML = output;
 }
 
-function generatePDF() {
-  alert("PDF-funktionalitet kommer snart! 🎉");
+function generateAI() {
+  const root = document.getElementById("root");
+  root.innerHTML = `
+    <h2>🧠 AI genererer nu din forretningsplan...</h2>
+    <p>(Denne funktion kobles til GPT-4 i næste version)</p>
+    <p><button onclick='downloadPDF()'>Download som PDF</button></p>
+  `;
+}
+
+function downloadPDF() {
+  alert("PDF-download aktiveres i næste version 🚀");
 }
 
 renderQuestion();
